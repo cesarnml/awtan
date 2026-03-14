@@ -13,6 +13,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@sentry/astro": "^10.43.0",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^6.0.4",
     "tailwindcss": "^4.2.1"
@@ -24,6 +25,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^25.5.0",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1"
   }
