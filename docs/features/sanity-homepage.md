@@ -1,91 +1,39 @@
-# Sanity Homepage Feature Log
+# Sanity CMS Integration
 
 ## Summary
 
-This branch introduces a Sanity-backed homepage for the Astro marketing site, modeled on the section density and editorial flow of the Koon Hotel homepage.
+This repo now includes a first-pass Sanity CMS integration for the Astro marketing site.
 
-Current state:
+The current scope is intentionally narrow:
 
-- Sanity Studio is embedded at `/studio`
-- The public homepage fetches published singleton content at build time
-- The frontend falls back to local sample content until Sanity is configured and populated
-- Navigation is modeled now for future non-homepage pages, but only the homepage is implemented in this branch
+- Sanity Studio is configured at `/studio`
+- the public site reads published content for the homepage only
+- shared header and footer content comes from `siteSettings`
+- the app falls back to local sample content if Sanity is not configured or required singleton content is missing
 
-## Decisions
+This keeps the CMS rollout small enough to ship while still giving marketing a real content model for the homepage.
 
-### Homepage only for v1
+## What Was Added
 
-The implementation is intentionally limited to the main homepage. We are not building Sanity-driven routing or additional content pages yet.
+### Embedded and standalone Studio support
 
-Reason:
+Sanity is wired into Astro through [`astro.config.mjs`](../../astro.config.mjs), with `@sanity/astro` mounted at `/studio`.
 
-- keeps the first CMS integration small enough to land cleanly
-- lets us validate the content model and editorial workflow before expanding page inventory
+The repo also includes a standalone Studio workflow via `pnpm studio:dev`, backed by [`sanity.config.ts`](../../sanity.config.ts) and [`sanity.cli.ts`](../../sanity.cli.ts).
 
-### Embedded Studio in the same repo
+In practice, the standalone Studio is the safer local workflow right now. The embedded `/studio` route exists, but local dev still runs into a Vite transform conflict when Studio is served inside the Astro dev server.
 
-Sanity Studio is mounted through the Astro app at `/studio` using `@sanity/astro`.
+### Homepage content model
 
-Reason:
+The homepage is modeled as a singleton `homepage` document with:
 
-- one repo and one local dev environment
-- easier handoff between frontend implementation and content modeling
-- less setup overhead while the CMS model is still changing
+- `seoTitle`
+- `seoDescription`
+- an ordered `sections` array
 
-### Static published-content fetch
+The ordered array is the main design choice here. Instead of hard-coding one fixed homepage shape, the editor can reorder modules while the frontend keeps rendering through a controlled section map.
 
-The Astro homepage fetches published content at build time.
-
-Reason:
-
-- matches the marketing-site use case
-- keeps hosting simple
-- avoids preview/draft complexity in the first pass
-
-Implication:
-
-- content changes require a rebuild/redeploy to appear on the public site
-
-### Flexible ordered sections
-
-The `homepage` document stores an ordered `sections` array instead of a rigid one-off field set.
-
-Reason:
-
-- marketing can reorder modules without code changes
-- the homepage structure is content-rich and likely to evolve
-- still constrained enough to keep rendering predictable
-
-### Global settings as a singleton
-
-Shared nav and footer content lives in a `siteSettings` singleton.
-
-Reason:
-
-- the homepage already needs cross-page-style navigation
-- future pages will likely reuse the same header/footer model
-
-## Data Model
-
-### Singleton documents
-
-`homepage`
-
-- SEO title
-- SEO description
-- ordered sections array
-
-`siteSettings`
-
-- hotel name
-- tagline
-- primary nav items
-- footer blurb
-- footer note
-- footer phone/email
-- social links
-
-### Homepage section types
+Implemented section types:
 
 - `heroSection`
 - `storySection`
@@ -97,101 +45,93 @@ Reason:
 - `newsletterSection`
 - `contactSection`
 
-### Shared object types
+Shared object types support links, images, room cards, amenities, offers, testimonials, navigation items, and social links. The schema lives in [`sanity.config.ts`](../../sanity.config.ts).
 
-- `ctaLink`
-- `navItem`
-- `socialLink`
-- `imageWithAlt`
-- `roomCard`
-- `amenityItem`
-- `offerCard`
-- `testimonialItem`
+### Global site settings singleton
 
-## Implementation Notes
+Shared site chrome is stored in a singleton `siteSettings` document. That currently covers:
 
-### App wiring
+- hotel name and tagline
+- primary navigation items
+- footer copy
+- footer contact info
+- social links
 
-- Sanity integration is configured in [`astro.config.mjs`](../../astro.config.mjs)
-- Studio is exposed at `/studio` via `@sanity/astro`
-- React support was added because the embedded Studio depends on it
+This gives the homepage a CMS-managed header and footer now, and leaves room for future pages to reuse the same settings model later.
 
-### Content loading
+## Data Flow
 
-- The homepage entrypoint is [`src/pages/index.astro`](../../src/pages/index.astro)
-- Content loading is handled in [`src/sanity/load-homepage.ts`](../../src/sanity/load-homepage.ts)
-- GROQ queries live in [`src/sanity/queries.ts`](../../src/sanity/queries.ts)
-- Runtime typing lives in [`src/sanity/types.ts`](../../src/sanity/types.ts)
+The homepage entrypoint is [`src/pages/index.astro`](../../src/pages/index.astro).
 
-### Fallback behavior
+At build time it calls [`src/sanity/load-homepage.ts`](../../src/sanity/load-homepage.ts), which:
 
-If Sanity is not configured, or if required singleton content is missing, the homepage renders local sample content instead of failing the build.
+- checks whether Sanity has been configured
+- fetches `homepage` and `siteSettings` in parallel
+- normalizes array fields in `siteSettings`
+- validates that the minimum renderable singleton content exists
+- falls back to local sample payloads when config, content, or queries fail
 
-This is implemented in:
+The Sanity client is configured in [`src/sanity/client.ts`](../../src/sanity/client.ts) and explicitly uses `perspective: "published"`, so the public site only reads published content.
 
-- [`src/sanity/fallback.ts`](../../src/sanity/fallback.ts)
+GROQ queries live in [`src/sanity/queries.ts`](../../src/sanity/queries.ts). Runtime TypeScript shapes for the payload are defined in [`src/sanity/types.ts`](../../src/sanity/types.ts).
 
-Reason:
+## Rendering Model
 
-- allows UI and schema work to progress independently
-- keeps the branch demoable before CMS credentials/content are ready
+The frontend renders the homepage by iterating over `homepage.sections` and dispatching each entry through [`src/components/site/SectionRenderer.astro`](../../src/components/site/SectionRenderer.astro).
 
-### Rendering model
+That dispatcher maps Sanity section `_type` values to individual Astro section components under [`src/components/sections`](../../src/components/sections).
 
-- The homepage is rendered through a section dispatcher in [`src/components/site/SectionRenderer.astro`](../../src/components/site/SectionRenderer.astro)
-- Each homepage module has its own Astro component under [`src/components/sections`](../../src/components/sections)
-- Header and footer are split into reusable site components under [`src/components/site`](../../src/components/site)
+This split is useful for two reasons:
 
-### Environment variables
+- the content model can stay flexible without making `index.astro` large or fragile
+- each homepage module remains easy to redesign independently
 
-Documented in:
+## Fallback Behavior
 
-- [`.env.example`](../../.env.example)
+Fallback content is defined in [`src/sanity/fallback.ts`](../../src/sanity/fallback.ts).
 
-Current variables:
+If Sanity is unavailable for any of these reasons:
 
-- `PUBLIC_SANITY_PROJECT_ID`
-- `PUBLIC_SANITY_DATASET`
-- `PUBLIC_SANITY_API_VERSION`
+- missing env configuration
+- missing singleton content
+- query failure
+
+the app still renders a complete sample homepage and shows a notice banner on the page.
+
+That fallback path is important for this repo because it keeps frontend work, schema work, and environment setup decoupled. The site remains buildable before the real Sanity project is fully populated.
+
+## Environment Setup
+
+Environment variables are documented in [`.env.example`](../../.env.example).
+
+The integration currently uses three variable groups:
+
+- `PUBLIC_SANITY_*` for Astro/frontend runtime access
+- `VITE_SANITY_*` for the standalone Studio browser bundle
+- `SANITY_STUDIO_*` as an additional Studio config source
+
+Optional server-only reads can use:
+
 - `SANITY_API_READ_TOKEN`
 
-## Verification
+If no read token is provided, the Sanity client uses the CDN for published reads.
 
-Current verification completed:
+## Current Constraints
 
-- `pnpm format`
-- `pnpm build`
+- This integration only drives the homepage. There is no Sanity-driven routing or page inventory beyond that yet.
+- The public site reads published content only. Draft preview and visual editing are not implemented.
+- Local content entry should use `pnpm studio:dev` for now because the embedded Studio path still has a dev-time Vite conflict.
+- The fallback sample content is still carrying placeholder hotel copy and imagery until the real Sanity project is populated.
 
-Build status:
+## Files To Know
 
-- passing
-
-Current non-blocking warnings:
-
-- Sentry warns during build if auth token is unavailable in the build environment
-- Vite warns that the Studio bundle is large
-
-## Open Issues / Next Steps
-
-- Create the actual Sanity project content for `Homepage` and `Site settings`
-- Replace sample fallback copy and placeholder imagery with real hotel content
-- Decide whether the newsletter CTA should become a real form or remain an external link
-- Decide how booking flow links should resolve in production
-- Add future pages once the homepage model is stable enough to reuse
-- Consider preview/draft mode only after the published-content workflow is working well
-
-## Change Log
-
-### 2026-03-14
-
-Implemented the first Sanity CMS integration for the marketing homepage.
-
-Included:
-
-- embedded Studio at `/studio`
-- singleton schema for homepage and site settings
-- section-based homepage rendering
-- global nav/footer content model
-- future-ready nav items that can point to placeholder routes
-- Koon-style sample homepage fallback content
-- env var documentation for local setup
+- [`astro.config.mjs`](../../astro.config.mjs)
+- [`sanity.config.ts`](../../sanity.config.ts)
+- [`sanity.cli.ts`](../../sanity.cli.ts)
+- [`src/pages/index.astro`](../../src/pages/index.astro)
+- [`src/sanity/client.ts`](../../src/sanity/client.ts)
+- [`src/sanity/load-homepage.ts`](../../src/sanity/load-homepage.ts)
+- [`src/sanity/queries.ts`](../../src/sanity/queries.ts)
+- [`src/sanity/types.ts`](../../src/sanity/types.ts)
+- [`src/sanity/fallback.ts`](../../src/sanity/fallback.ts)
+- [`src/components/site/SectionRenderer.astro`](../../src/components/site/SectionRenderer.astro)
