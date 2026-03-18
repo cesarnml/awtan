@@ -25,6 +25,7 @@ This branch embeds Sanity Studio at `/studio` and fetches published homepage con
 4. Start `pnpm dev`.
 5. Start `pnpm studio:dev` for the standalone Studio during local content entry.
 6. Open `http://127.0.0.1:3333` to create the singleton `Homepage` and `Site settings` documents.
+7. If the dataset is empty, run `pnpm sanity:seed-homepage` once to create the singleton homepage and site settings starter content.
 
 If Sanity is not configured yet, the homepage renders local sample content so the app remains buildable while the schema and UI are being developed.
 

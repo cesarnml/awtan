@@ -4,6 +4,10 @@ import type { HeroSection as HeroSectionType } from "../../sanity/types";
 
 const { section } = Astro.props as { section: HeroSectionType };
 const imageUrl = getImageUrl(section.image?.image, 1800);
+const hasHeroVisual = Boolean(imageUrl);
+const hasBookingCard = Boolean(
+  section.bookingCardTitle || section.bookingActions?.length,
+);
 ---
 
 <section id={section.anchorId} class="relative overflow-hidden">
@@ -12,7 +16,10 @@ const imageUrl = getImageUrl(section.image?.image, 1800);
   >
   </div>
   <div
-    class="container-shell grid gap-8 py-10 md:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-18"
+    class:list={[
+      "container-shell grid gap-8 py-10 md:py-14 lg:items-center lg:py-18",
+      hasHeroVisual ? "lg:grid-cols-[1.1fr_0.9fr]" : "lg:grid-cols-1",
+    ]}
   >
     <div class="relative space-y-6">
       {section.eyebrow && <p class="section-eyebrow">{section.eyebrow}</p>}
@@ -51,27 +58,10 @@ const imageUrl = getImageUrl(section.image?.image, 1800);
           )
         }
       </div>
-    </div>
-
-    <div class="relative">
-      <div
-        class="overflow-hidden rounded-[2rem] border border-white/40 shadow-[var(--shadow)]"
-      >
-        {
-          imageUrl && (
-            <img
-              src={imageUrl}
-              alt={section.image?.alt ?? section.title}
-              class="h-[34rem] w-full object-cover"
-              loading="eager"
-            />
-          )
-        }
-      </div>
 
       {
-        (section.bookingCardTitle || section.bookingActions?.length) && (
-          <div class="card-surface absolute -bottom-8 left-6 right-6 rounded-[1.75rem] p-6 md:left-auto md:right-8 md:w-[22rem]">
+        !hasHeroVisual && hasBookingCard && (
+          <div class="card-surface rounded-[1.75rem] p-6">
             {section.bookingCardTitle && (
               <h2 class="text-3xl text-[var(--forest)]">
                 {section.bookingCardTitle}
@@ -98,5 +88,48 @@ const imageUrl = getImageUrl(section.image?.image, 1800);
         )
       }
     </div>
+
+    {
+      hasHeroVisual && (
+        <div class="relative">
+          <div
+            class="overflow-hidden rounded-[2rem] border border-white/40 shadow-[var(--shadow)]"
+          >
+            <img
+              src={imageUrl}
+              alt={section.image?.alt ?? section.title}
+              class="h-[34rem] w-full object-cover"
+              loading="eager"
+            />
+          </div>
+          {hasBookingCard && (
+            <div class="card-surface absolute -bottom-8 left-6 right-6 rounded-[1.75rem] p-6 md:left-auto md:right-8 md:w-[22rem]">
+              {section.bookingCardTitle && (
+                <h2 class="text-3xl text-[var(--forest)]">
+                  {section.bookingCardTitle}
+                </h2>
+              )}
+              {section.bookingCardText && (
+                <p class="mt-3 text-sm leading-6 text-[var(--muted)]">
+                  {section.bookingCardText}
+                </p>
+              )}
+              {section.bookingActions?.length ? (
+                <div class="mt-5 flex flex-wrap gap-3">
+                  {section.bookingActions.map((item) => (
+                    <a
+                      href={item.href}
+                      class="rounded-full border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--ink)] hover:border-[var(--accent)] hover:text-[var(--accent-strong)]"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          )}
+        </div>
+      )
+    }
   </div>
 </section>

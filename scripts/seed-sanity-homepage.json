@@ -1,0 +1,288 @@
+[
+  {
+    "_id": "siteSettings",
+    "_type": "siteSettings",
+    "hotelName": "Awtan Sukhumvit Hotel",
+    "tagline": "Bangkok calm with a city pulse",
+    "navItems": [
+      {
+        "_key": "nav-story",
+        "_type": "navItem",
+        "label": "Story",
+        "href": "#story"
+      },
+      {
+        "_key": "nav-rooms",
+        "_type": "navItem",
+        "label": "Rooms",
+        "href": "#rooms"
+      },
+      {
+        "_key": "nav-facilities",
+        "_type": "navItem",
+        "label": "Facilities",
+        "href": "#facilities"
+      },
+      {
+        "_key": "nav-offers",
+        "_type": "navItem",
+        "label": "Offers",
+        "href": "#offers"
+      },
+      {
+        "_key": "nav-reviews",
+        "_type": "navItem",
+        "label": "Reviews",
+        "href": "#reviews"
+      },
+      {
+        "_key": "nav-contact",
+        "_type": "navItem",
+        "label": "Contact",
+        "href": "#contact"
+      }
+    ],
+    "footerBlurb": "A warm, design-led city stay built for long weekends, quick business trips, and repeat guests who care about neighborhood energy as much as the room.",
+    "contactPhone": "+66 2 555 0199",
+    "contactEmail": "stay@awtanhotel.com",
+    "socialLinks": [
+      {
+        "_key": "social-instagram",
+        "_type": "socialLink",
+        "platform": "Instagram",
+        "href": "https://www.instagram.com/"
+      },
+      {
+        "_key": "social-facebook",
+        "_type": "socialLink",
+        "platform": "Facebook",
+        "href": "https://www.facebook.com/"
+      }
+    ]
+  },
+  {
+    "_id": "homepage",
+    "_type": "homepage",
+    "seoTitle": "Awtan Sukhumvit Hotel | Boutique Bangkok Stay",
+    "seoDescription": "A Sanity-managed boutique hotel homepage with story-driven sections, offers, room teasers, facilities, reviews, and neighborhood contact details.",
+    "sections": [
+      {
+        "_key": "section-hero",
+        "_type": "heroSection",
+        "anchorId": "top",
+        "sectionLabel": "Stay in Sukhumvit",
+        "eyebrow": "Bangkok boutique hotel",
+        "title": "A warm city base shaped for short stays, long lunches, and easy nights out.",
+        "description": "Awtan blends calm guestrooms, soft service, and a walkable Sukhumvit address into a homepage structure now sourced from Sanity.",
+        "primaryCta": {
+          "_type": "ctaLink",
+          "label": "Book your stay",
+          "href": "#contact"
+        },
+        "secondaryCta": {
+          "_type": "ctaLink",
+          "label": "Explore rooms",
+          "href": "#rooms"
+        },
+        "bookingCardTitle": "Plan the next arrival",
+        "bookingCardText": "Use this panel for booking engine links, best-rate messaging, rewards, or campaign CTAs.",
+        "bookingActions": [
+          {
+            "_key": "booking-rate",
+            "_type": "ctaLink",
+            "label": "Best available rate",
+            "href": "/book"
+          },
+          {
+            "_key": "booking-offers",
+            "_type": "ctaLink",
+            "label": "Member offers",
+            "href": "#offers"
+          }
+        ]
+      },
+      {
+        "_key": "section-story",
+        "_type": "storySection",
+        "anchorId": "story",
+        "sectionLabel": "The hotel",
+        "title": "A neighborhood-first stay with the pace of Sukhumvit just outside the lobby.",
+        "description": "This section carries the hotel story, positioning, and a few proof points while the marketing team replaces the seeded starter copy in Studio.",
+        "highlights": [
+          "Walkable to BTS and neighborhood dining",
+          "Quiet, layered interiors instead of generic business-hotel finishes",
+          "Flexible for both short business trips and weekend city breaks"
+        ]
+      },
+      {
+        "_key": "section-rooms",
+        "_type": "roomHighlightsSection",
+        "anchorId": "rooms",
+        "sectionLabel": "Rooms",
+        "title": "Room types that sell the stay before the full rooms page exists.",
+        "description": "Homepage room teasers should stand on their own now and still point naturally to a future /rooms route later.",
+        "rooms": [
+          {
+            "_key": "room-deluxe-king",
+            "_type": "roomCard",
+            "title": "Deluxe King",
+            "summary": "A calm base with a lounge chair, city-facing windows, and enough space to settle in.",
+            "details": [
+              "32 sqm",
+              "King bed",
+              "Work nook",
+              "Rain shower"
+            ],
+            "cta": {
+              "_type": "ctaLink",
+              "label": "View room",
+              "href": "/rooms"
+            }
+          },
+          {
+            "_key": "room-corner-twin",
+            "_type": "roomCard",
+            "title": "Corner Twin",
+            "summary": "Built for friends and flexible travel with extra daylight and a relaxed living feel.",
+            "details": [
+              "34 sqm",
+              "Twin beds",
+              "Corner aspect",
+              "Smart TV"
+            ],
+            "cta": {
+              "_type": "ctaLink",
+              "label": "See details",
+              "href": "/rooms"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "section-amenities",
+        "_type": "amenitiesSection",
+        "anchorId": "facilities",
+        "sectionLabel": "Facilities",
+        "title": "Small but considered facilities that matter to real guests.",
+        "description": "Use this module to highlight the features that make the property feel complete without turning the page into a generic checklist.",
+        "amenities": [
+          {
+            "_key": "amenity-pool",
+            "_type": "amenityItem",
+            "title": "Rooftop dip pool",
+            "description": "A compact top-floor pool for late afternoon resets and skyline views."
+          },
+          {
+            "_key": "amenity-cafe",
+            "_type": "amenityItem",
+            "title": "All-day cafe",
+            "description": "Coffee, breakfast, and easy lunches designed for guests and neighborhood walk-ins."
+          },
+          {
+            "_key": "amenity-gym",
+            "_type": "amenityItem",
+            "title": "Gym and recovery corner",
+            "description": "Cardio, weights, and a small stretch zone for guests staying in motion."
+          }
+        ]
+      },
+      {
+        "_key": "section-offers",
+        "_type": "offersSection",
+        "anchorId": "offers",
+        "sectionLabel": "Offers",
+        "title": "Campaign space for rewards, long-stay value, and seasonal booking pushes.",
+        "description": "These cards mirror the promotional rhythm of the reference site and give marketing room to rotate value props.",
+        "offers": [
+          {
+            "_key": "offer-member-value",
+            "_type": "offerCard",
+            "kicker": "Member value",
+            "title": "Book direct and unlock late check-out",
+            "summary": "A simple reward-driven offer block for direct-booking positioning.",
+            "cta": {
+              "_type": "ctaLink",
+              "label": "Claim this offer",
+              "href": "/offers"
+            }
+          },
+          {
+            "_key": "offer-city-break",
+            "_type": "offerCard",
+            "kicker": "City break",
+            "title": "Weekend stay with breakfast for two",
+            "summary": "Bundle breakfast, flexible arrival, and a neighborhood guide for short leisure stays.",
+            "cta": {
+              "_type": "ctaLink",
+              "label": "See package",
+              "href": "/offers"
+            }
+          }
+        ]
+      },
+      {
+        "_key": "section-testimonials",
+        "_type": "testimonialsSection",
+        "anchorId": "reviews",
+        "sectionLabel": "Guest feedback",
+        "title": "Reviews should feel like reassurance, not filler.",
+        "description": "A review band helps the homepage feel commercially complete before deeper page inventory exists.",
+        "testimonials": [
+          {
+            "_key": "testimonial-mina",
+            "_type": "testimonialItem",
+            "name": "Mina T.",
+            "origin": "Singapore",
+            "quote": "The location made everything easy, but the calm rooms were what made us extend our stay.",
+            "rating": 5
+          },
+          {
+            "_key": "testimonial-daniel",
+            "_type": "testimonialItem",
+            "name": "Daniel R.",
+            "origin": "Sydney",
+            "quote": "It felt designed for actual travelers, not just for photos. Fast check-in, quiet nights, and great coffee downstairs.",
+            "rating": 5
+          }
+        ]
+      },
+      {
+        "_key": "section-newsletter",
+        "_type": "newsletterSection",
+        "anchorId": "news",
+        "sectionLabel": "Keep in touch",
+        "title": "Collect interest for launches, offers, and neighborhood updates.",
+        "description": "This v1 homepage uses a CTA pattern rather than a wired form so marketing can decide the final signup flow later.",
+        "helperText": "Plug in your email platform or CRM destination when the campaign stack is ready.",
+        "action": {
+          "_type": "ctaLink",
+          "label": "Join the mailing list",
+          "href": "/newsletter"
+        }
+      },
+      {
+        "_key": "section-contact",
+        "_type": "contactSection",
+        "anchorId": "contact",
+        "sectionLabel": "Contact",
+        "title": "Close with location confidence and direct booking contact.",
+        "description": "This final block gives the homepage an operational close: address, hours, contact, and a strong route into booking or inquiry.",
+        "addressLines": [
+          "91 Sukhumvit Soi 31",
+          "Khlong Toei Nuea, Watthana",
+          "Bangkok 10110"
+        ],
+        "phone": "+66 2 555 0199",
+        "email": "stay@awtanhotel.com",
+        "hours": "Reservations daily, 08:00-22:00",
+        "mapLabel": "Open in Google Maps",
+        "mapHref": "https://maps.google.com/",
+        "primaryCta": {
+          "_type": "ctaLink",
+          "label": "Send an inquiry",
+          "href": "mailto:stay@awtanhotel.com"
+        }
+      }
+    ]
+  }
+]
