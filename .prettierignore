@@ -2,3 +2,4 @@
 dist/
 .sanity/runtime/
 tmp/awtan-schema.json/
+pnpm-lock.yaml
