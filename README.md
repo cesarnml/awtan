@@ -1,5 +1,37 @@
 # Awtan Sukhumvit Hotel
 
+## Sanity CMS
+
+This branch embeds Sanity Studio at `/studio` and fetches published homepage content from Sanity at build time.
+
+### Local setup
+
+1. Copy [`.env.example`](./.env.example) to `.env` if you do not already have the Sanity variables.
+2. Set:
+   - Astro/frontend:
+     - `PUBLIC_SANITY_PROJECT_ID`
+     - `PUBLIC_SANITY_DATASET`
+     - `PUBLIC_SANITY_API_VERSION`
+   - Standalone Sanity Studio browser bundle:
+     - `VITE_SANITY_PROJECT_ID`
+     - `VITE_SANITY_DATASET`
+     - `VITE_SANITY_API_VERSION`
+   - Sanity Studio:
+     - `SANITY_STUDIO_PROJECT_ID`
+     - `SANITY_STUDIO_DATASET`
+     - `SANITY_STUDIO_API_VERSION`
+   - `SANITY_API_READ_TOKEN` only if you later need authenticated reads
+3. Run `pnpm install`.
+4. Start `pnpm dev`.
+5. Start `pnpm studio:dev` for the standalone Studio during local content entry.
+6. Open `http://127.0.0.1:3333` to create the singleton `Homepage` and `Site settings` documents.
+
+If Sanity is not configured yet, the homepage renders local sample content so the app remains buildable while the schema and UI are being developed.
+
+### Local Studio note
+
+The embedded `/studio` route is configured in the app, but the current local dev stack still hits a Vite transform conflict when Studio runs inside the Astro dev server. The standalone Studio command avoids that conflict and should be used for local content modeling and placeholder uploads for now.
+
 ## Git Worktrees For Codex
 
 Use one worktree per feature so each Codex session gets its own branch and directory.

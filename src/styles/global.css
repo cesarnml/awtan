@@ -1,1 +1,74 @@
 @import "tailwindcss";
+
+:root {
+  --page-bg: #f7f1e8;
+  --surface: #fbf7f2;
+  --surface-strong: #efe2d1;
+  --sand: #e8d8c3;
+  --accent: #9f5e3d;
+  --accent-strong: #7f4427;
+  --forest: #203629;
+  --forest-soft: #304d3b;
+  --ink: #1d1c18;
+  --muted: #6f665a;
+  --line: rgba(36, 31, 24, 0.12);
+  --shadow: 0 24px 70px rgba(25, 17, 8, 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Instrument Sans", "Avenir Next", "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  letter-spacing: -0.02em;
+}
+
+a,
+button,
+input {
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.container-shell {
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.5rem;
+}
+
+.section-eyebrow {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+}
+
+.section-title {
+  font-size: clamp(2.2rem, 3vw, 4rem);
+  line-height: 0.98;
+}
+
+.section-copy {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.card-surface {
+  background: rgba(251, 247, 242, 0.86);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}

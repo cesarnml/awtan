@@ -1,0 +1,102 @@
+---
+import { getImageUrl } from "../../sanity/image";
+import type { HeroSection as HeroSectionType } from "../../sanity/types";
+
+const { section } = Astro.props as { section: HeroSectionType };
+const imageUrl = getImageUrl(section.image?.image, 1800);
+---
+
+<section id={section.anchorId} class="relative overflow-hidden">
+  <div
+    class="absolute inset-0 bg-[linear-gradient(135deg,rgba(32,54,41,0.14),transparent_48%,rgba(159,94,61,0.12))]"
+  >
+  </div>
+  <div
+    class="container-shell grid gap-8 py-10 md:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-18"
+  >
+    <div class="relative space-y-6">
+      {section.eyebrow && <p class="section-eyebrow">{section.eyebrow}</p>}
+      <h1
+        class="section-title max-w-4xl text-[4rem] text-[var(--forest)] md:text-[5rem]"
+      >
+        {section.title}
+      </h1>
+      {
+        section.description && (
+          <p class="section-copy max-w-2xl text-lg md:text-xl">
+            {section.description}
+          </p>
+        )
+      }
+
+      <div class="flex flex-wrap gap-4">
+        {
+          section.primaryCta && (
+            <a
+              href={section.primaryCta.href}
+              class="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white hover:-translate-y-0.5 hover:bg-[var(--accent-strong)]"
+            >
+              {section.primaryCta.label}
+            </a>
+          )
+        }
+        {
+          section.secondaryCta && (
+            <a
+              href={section.secondaryCta.href}
+              class="rounded-full border border-[var(--line)] bg-white/60 px-6 py-3 text-sm font-semibold text-[var(--ink)] hover:-translate-y-0.5 hover:border-[var(--accent)]"
+            >
+              {section.secondaryCta.label}
+            </a>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="relative">
+      <div
+        class="overflow-hidden rounded-[2rem] border border-white/40 shadow-[var(--shadow)]"
+      >
+        {
+          imageUrl && (
+            <img
+              src={imageUrl}
+              alt={section.image?.alt ?? section.title}
+              class="h-[34rem] w-full object-cover"
+              loading="eager"
+            />
+          )
+        }
+      </div>
+
+      {
+        (section.bookingCardTitle || section.bookingActions?.length) && (
+          <div class="card-surface absolute -bottom-8 left-6 right-6 rounded-[1.75rem] p-6 md:left-auto md:right-8 md:w-[22rem]">
+            {section.bookingCardTitle && (
+              <h2 class="text-3xl text-[var(--forest)]">
+                {section.bookingCardTitle}
+              </h2>
+            )}
+            {section.bookingCardText && (
+              <p class="mt-3 text-sm leading-6 text-[var(--muted)]">
+                {section.bookingCardText}
+              </p>
+            )}
+            {section.bookingActions?.length ? (
+              <div class="mt-5 flex flex-wrap gap-3">
+                {section.bookingActions.map((item) => (
+                  <a
+                    href={item.href}
+                    class="rounded-full border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--ink)] hover:border-[var(--accent)] hover:text-[var(--accent-strong)]"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

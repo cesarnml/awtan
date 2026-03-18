@@ -1,19 +1,50 @@
 // @ts-check
+import fs from "node:fs";
+import react from "@astrojs/react";
 import sentry from "@sentry/astro";
+import sanity from "@sanity/astro";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+
+if (fs.existsSync(".env")) {
+  process.loadEnvFile?.(".env");
+}
+
+const isProduction = process.env.NODE_ENV === "production";
+const sanityProjectId =
+  process.env.PUBLIC_SANITY_PROJECT_ID ?? "your-project-id";
+const sanityDataset = process.env.PUBLIC_SANITY_DATASET ?? "production";
+const sanityApiVersion = process.env.PUBLIC_SANITY_API_VERSION ?? "2025-02-19";
+const sanityReadToken = process.env.SANITY_API_READ_TOKEN;
 
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      exclude: ["sanity", "@sanity/astro", "@sanity/visual-editing"],
+    },
   },
 
   integrations: [
-    sentry({
-      project: "awtan",
-      org: "cnml",
-      authToken: process.env.SENTRY_AUTH_TOKEN,
+    react(),
+    sanity({
+      projectId: sanityProjectId,
+      dataset: sanityDataset,
+      apiVersion: sanityApiVersion,
+      token: sanityReadToken,
+      useCdn: !sanityReadToken,
+      studioBasePath: "/studio",
+      studioRouterHistory: "hash",
     }),
+    ...(isProduction
+      ? [
+          sentry({
+            project: "awtan",
+            org: "cnml",
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+          }),
+        ]
+      : []),
   ],
 });

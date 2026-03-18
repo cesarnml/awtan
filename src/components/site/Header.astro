@@ -1,0 +1,42 @@
+---
+import type { SiteSettings } from "../../sanity/types";
+
+const { siteSettings } = Astro.props as { siteSettings: SiteSettings };
+const navItems = siteSettings.navItems ?? [];
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-[var(--line)] bg-[rgba(247,241,232,0.82)] backdrop-blur-xl"
+>
+  <div class="container-shell flex items-center justify-between gap-6 py-4">
+    <a href="/" class="min-w-0">
+      <div
+        class="text-xs font-semibold uppercase tracking-[0.32em] text-[var(--accent-strong)]"
+      >
+        {siteSettings.tagline ?? "Awtan Hotel"}
+      </div>
+      <div class="truncate text-2xl font-semibold text-[var(--forest)]">
+        {siteSettings.hotelName}
+      </div>
+    </a>
+
+    <nav
+      class="hidden items-center gap-6 text-sm font-medium text-[var(--ink)] lg:flex"
+    >
+      {
+        navItems.map((item) => (
+          <a class="hover:text-[var(--accent-strong)]" href={item.href}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a
+      href="#contact"
+      class="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-5 py-2 text-sm font-semibold text-white hover:-translate-y-0.5 hover:bg-[var(--accent-strong)]"
+    >
+      Contact
+    </a>
+  </div>
+</header>

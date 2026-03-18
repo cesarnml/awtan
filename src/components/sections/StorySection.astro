@@ -1,0 +1,51 @@
+---
+import { getImageUrl } from "../../sanity/image";
+import type { StorySection as StorySectionType } from "../../sanity/types";
+
+const { section } = Astro.props as { section: StorySectionType };
+const imageUrl = getImageUrl(section.image?.image, 1400);
+---
+
+<section id={section.anchorId} class="py-24">
+  <div
+    class="container-shell grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center"
+  >
+    <div class="space-y-5">
+      {
+        section.sectionLabel && (
+          <p class="section-eyebrow">{section.sectionLabel}</p>
+        )
+      }
+      <h2 class="section-title text-[var(--forest)]">{section.title}</h2>
+      {
+        section.description && (
+          <p class="section-copy max-w-2xl text-lg">{section.description}</p>
+        )
+      }
+      {
+        section.highlights?.length ? (
+          <div class="grid gap-3 pt-4 text-sm text-[var(--ink)] md:grid-cols-3">
+            {section.highlights.map((item) => (
+              <div class="rounded-[1.25rem] border border-[var(--line)] bg-white/55 p-4 leading-6">
+                {item}
+              </div>
+            ))}
+          </div>
+        ) : null
+      }
+    </div>
+
+    {
+      imageUrl && (
+        <div class="overflow-hidden rounded-[2rem] border border-[var(--line)] shadow-[var(--shadow)]">
+          <img
+            src={imageUrl}
+            alt={section.image?.alt ?? section.title}
+            class="h-[30rem] w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      )
+    }
+  </div>
+</section>

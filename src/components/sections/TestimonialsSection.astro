@@ -1,0 +1,44 @@
+---
+import type { TestimonialsSection as TestimonialsSectionType } from "../../sanity/types";
+
+const { section } = Astro.props as { section: TestimonialsSectionType };
+---
+
+<section id={section.anchorId} class="py-24">
+  <div class="container-shell space-y-8">
+    <div class="max-w-3xl space-y-4">
+      {
+        section.sectionLabel && (
+          <p class="section-eyebrow">{section.sectionLabel}</p>
+        )
+      }
+      <h2 class="section-title text-[var(--forest)]">{section.title}</h2>
+      {
+        section.description && (
+          <p class="section-copy text-lg">{section.description}</p>
+        )
+      }
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      {
+        section.testimonials?.map((item) => (
+          <blockquote class="rounded-[1.75rem] border border-[var(--line)] bg-white/70 p-8 shadow-[var(--shadow)]">
+            {item.rating && (
+              <div class="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--accent-strong)]">
+                {"★".repeat(item.rating)} Guest rating
+              </div>
+            )}
+            <p class="mt-5 text-xl leading-9 text-[var(--ink)]">
+              “{item.quote}”
+            </p>
+            <footer class="mt-6 text-sm font-medium text-[var(--muted)]">
+              {item.name}
+              {item.origin ? `, ${item.origin}` : ""}
+            </footer>
+          </blockquote>
+        ))
+      }
+    </div>
+  </div>
+</section>

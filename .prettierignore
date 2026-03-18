@@ -1,0 +1,4 @@
+.astro/
+dist/
+.sanity/runtime/
+tmp/awtan-schema.json/

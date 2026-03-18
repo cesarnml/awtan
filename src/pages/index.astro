@@ -1,5 +1,18 @@
 ---
 import "../styles/global.css";
+
+import Footer from "../components/site/Footer.astro";
+import Header from "../components/site/Header.astro";
+import SectionRenderer from "../components/site/SectionRenderer.astro";
+import { loadHomepagePage } from "../sanity/load-homepage";
+
+const page = await loadHomepagePage();
+const { homepage, siteSettings, source, notice } = page;
+const pageTitle =
+  homepage.seoTitle ?? `${siteSettings.hotelName} | Sukhumvit Stay`;
+const pageDescription =
+  homepage.seoDescription ??
+  "A content-rich hotel marketing homepage powered by Astro and Sanity.";
 ---
 
 <html lang="en">
@@ -7,11 +20,32 @@ import "../styles/global.css";
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
   </head>
-  <body>
-    <h1 class="text-3xl font-bold underline">Hello world!</h1>
+  <body class="bg-[var(--page-bg)] text-[var(--ink)] antialiased">
+    <Header siteSettings={siteSettings} />
+
+    {
+      source !== "sanity" && (
+        <div class="border-b border-[var(--line)] bg-[var(--sand)]/70">
+          <div class="mx-auto max-w-7xl px-6 py-3 text-sm text-[var(--muted)]">
+            {notice}
+          </div>
+        </div>
+      )
+    }
+
+    <main>
+      {
+        homepage.sections.map((section) => (
+          <SectionRenderer section={section} />
+        ))
+      }
+    </main>
+
+    <Footer siteSettings={siteSettings} />
   </body>
 </html>

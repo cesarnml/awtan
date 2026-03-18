@@ -8,19 +8,33 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "studio:dev": "sanity dev --host 127.0.0.1 --port 3333",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format": "prettier --write ."
+    "format": "prettier --write . --ignore-path .prettierignore"
   },
   "dependencies": {
+    "@astrojs/react": "^5.0.0",
+    "@sanity/astro": "^3.3.1",
+    "@sanity/client": "^7.17.0",
+    "@sanity/image-url": "^2.0.3",
     "@sentry/astro": "^10.43.0",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^6.0.4",
+    "groq": "^5.16.0",
+    "lodash": "^4.17.23",
+    "react": "^19.2.4",
+    "react-compiler-runtime": "^1.0.0",
+    "react-dom": "^19.2.4",
+    "react-is": "^19.2.4",
+    "sanity": "^5.16.0",
+    "styled-components": "^6.3.11",
     "tailwindcss": "^4.2.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@sentry/cli",
       "esbuild",
       "sharp"
     ]

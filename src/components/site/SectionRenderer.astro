@@ -1,0 +1,30 @@
+---
+import type { HomepageSection } from "../../sanity/types";
+import AmenitiesSection from "../sections/AmenitiesSection.astro";
+import ContactSection from "../sections/ContactSection.astro";
+import GallerySection from "../sections/GallerySection.astro";
+import HeroSection from "../sections/HeroSection.astro";
+import NewsletterSection from "../sections/NewsletterSection.astro";
+import OffersSection from "../sections/OffersSection.astro";
+import RoomHighlightsSection from "../sections/RoomHighlightsSection.astro";
+import StorySection from "../sections/StorySection.astro";
+import TestimonialsSection from "../sections/TestimonialsSection.astro";
+
+const { section } = Astro.props as { section: HomepageSection };
+
+const componentMap = {
+  heroSection: HeroSection,
+  storySection: StorySection,
+  roomHighlightsSection: RoomHighlightsSection,
+  amenitiesSection: AmenitiesSection,
+  offersSection: OffersSection,
+  testimonialsSection: TestimonialsSection,
+  gallerySection: GallerySection,
+  newsletterSection: NewsletterSection,
+  contactSection: ContactSection,
+} as const;
+
+const Component = componentMap[section._type as keyof typeof componentMap];
+---
+
+{Component ? <Component section={section as never} /> : null}

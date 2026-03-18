@@ -1,0 +1,58 @@
+---
+import type { OffersSection as OffersSectionType } from "../../sanity/types";
+
+const { section } = Astro.props as { section: OffersSectionType };
+---
+
+<section
+  id={section.anchorId}
+  class="bg-[var(--forest)] py-24 text-[var(--surface)]"
+>
+  <div class="container-shell space-y-8">
+    <div class="max-w-3xl space-y-4">
+      {
+        section.sectionLabel && (
+          <p class="section-eyebrow text-[var(--sand)]">
+            {section.sectionLabel}
+          </p>
+        )
+      }
+      <h2 class="section-title">{section.title}</h2>
+      {
+        section.description && (
+          <p class="max-w-2xl text-lg leading-8 text-[rgba(251,247,242,0.74)]">
+            {section.description}
+          </p>
+        )
+      }
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      {
+        section.offers?.map((offer) => (
+          <article class="rounded-[1.75rem] border border-white/10 bg-white/6 p-7">
+            {offer.kicker && (
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-[var(--sand)]">
+                {offer.kicker}
+              </p>
+            )}
+            <h3 class="mt-3 text-4xl">{offer.title}</h3>
+            {offer.summary && (
+              <p class="mt-4 max-w-xl text-sm leading-7 text-[rgba(251,247,242,0.78)]">
+                {offer.summary}
+              </p>
+            )}
+            {offer.cta && (
+              <a
+                class="mt-6 inline-flex rounded-full border border-[var(--sand)] px-5 py-2 text-sm font-semibold text-[var(--sand)] hover:bg-[var(--sand)] hover:text-[var(--forest)]"
+                href={offer.cta.href}
+              >
+                {offer.cta.label}
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
