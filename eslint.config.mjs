@@ -15,6 +15,15 @@ const ignores = [
 
 const jsAndTsFiles = ["**/*.{js,mjs,cjs,ts,mts,cts}"];
 const reactFiles = ["**/*.{jsx,tsx}"];
+const nodeFiles = [
+  "astro.config.mjs",
+  "eslint.config.mjs",
+  ".prettierrc.mjs",
+  "sanity.cli.ts",
+  "sentry.server.config.js",
+];
+const browserFiles = ["sentry.client.config.js"];
+const processEnvFiles = ["sanity.config.ts", "src/sanity/client.ts"];
 
 export default tseslint.config(
   { ignores },
@@ -23,9 +32,25 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
+    },
+  },
+  {
+    files: nodeFiles,
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
+    files: browserFiles,
+    languageOptions: {
+      globals: globals.browser,
+    },
+  },
+  {
+    files: processEnvFiles,
+    languageOptions: {
       globals: {
-        ...globals.browser,
-        ...globals.node,
+        process: "readonly",
       },
     },
   },
