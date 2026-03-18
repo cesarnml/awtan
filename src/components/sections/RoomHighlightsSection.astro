@@ -1,0 +1,66 @@
+---
+import { getImageUrl } from "../../sanity/image";
+import type { RoomHighlightsSection as RoomHighlightsSectionType } from "../../sanity/types";
+
+const { section } = Astro.props as { section: RoomHighlightsSectionType };
+---
+
+<section id={section.anchorId} class="bg-[var(--surface)] py-24">
+  <div class="container-shell space-y-8">
+    <div class="max-w-3xl space-y-4">
+      {
+        section.sectionLabel && (
+          <p class="section-eyebrow">{section.sectionLabel}</p>
+        )
+      }
+      <h2 class="section-title text-[var(--forest)]">{section.title}</h2>
+      {
+        section.description && (
+          <p class="section-copy text-lg">{section.description}</p>
+        )
+      }
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      {
+        section.rooms?.map((room) => {
+          const imageUrl = getImageUrl(room.image?.image, 1200);
+
+          return (
+            <article class="overflow-hidden rounded-[2rem] border border-[var(--line)] bg-white shadow-[var(--shadow)]">
+              {imageUrl && (
+                <img
+                  src={imageUrl}
+                  alt={room.image?.alt ?? room.title}
+                  class="h-72 w-full object-cover"
+                  loading="lazy"
+                />
+              )}
+              <div class="space-y-4 p-7">
+                <h3 class="text-4xl text-[var(--forest)]">{room.title}</h3>
+                {room.summary && <p class="section-copy">{room.summary}</p>}
+                {room.details?.length ? (
+                  <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
+                    {room.details.map((detail) => (
+                      <span class="rounded-full bg-[var(--surface-strong)] px-3 py-2">
+                        {detail}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                {room.cta && (
+                  <a
+                    class="inline-flex rounded-full border border-[var(--accent)] px-5 py-2 text-sm font-semibold text-[var(--accent-strong)] hover:bg-[var(--accent)] hover:text-white"
+                    href={room.cta.href}
+                  >
+                    {room.cta.label}
+                  </a>
+                )}
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

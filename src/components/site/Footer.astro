@@ -1,0 +1,90 @@
+---
+import type { SiteSettings } from "../../sanity/types";
+
+const { siteSettings } = Astro.props as { siteSettings: SiteSettings };
+---
+
+<footer
+  class="border-t border-[var(--line)] bg-[var(--forest)] text-[var(--surface)]"
+>
+  <div
+    class="container-shell grid gap-10 py-16 md:grid-cols-[1.3fr_0.9fr_0.8fr]"
+  >
+    <div class="space-y-4">
+      <p
+        class="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--sand)]"
+      >
+        Awtan Hotel
+      </p>
+      <h2 class="text-4xl">{siteSettings.hotelName}</h2>
+      {
+        siteSettings.footerBlurb && (
+          <p class="max-w-xl text-sm leading-7 text-[rgba(251,247,242,0.74)]">
+            {siteSettings.footerBlurb}
+          </p>
+        )
+      }
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-2xl">Navigation</h3>
+      <div class="grid gap-3 text-sm text-[rgba(251,247,242,0.78)]">
+        {
+          siteSettings.navItems.map((item) => (
+            <a class="hover:text-white" href={item.href}>
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="space-y-4 text-sm text-[rgba(251,247,242,0.78)]">
+      <h3 class="text-2xl">Connect</h3>
+      {
+        siteSettings.contactPhone && (
+          <a
+            class="block hover:text-white"
+            href={`tel:${siteSettings.contactPhone}`}
+          >
+            {siteSettings.contactPhone}
+          </a>
+        )
+      }
+      {
+        siteSettings.contactEmail && (
+          <a
+            class="block hover:text-white"
+            href={`mailto:${siteSettings.contactEmail}`}
+          >
+            {siteSettings.contactEmail}
+          </a>
+        )
+      }
+      <div class="flex gap-4 pt-2">
+        {
+          siteSettings.socialLinks.map((item) => (
+            <a
+              class="hover:text-white"
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {item.platform}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  {
+    siteSettings.footerNote && (
+      <div class="border-t border-white/10">
+        <div class="container-shell py-4 text-xs uppercase tracking-[0.2em] text-[rgba(251,247,242,0.55)]">
+          {siteSettings.footerNote}
+        </div>
+      </div>
+    )
+  }
+</footer>

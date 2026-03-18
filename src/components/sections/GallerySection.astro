@@ -1,0 +1,57 @@
+---
+import { getImageUrl } from "../../sanity/image";
+import type { GallerySection as GallerySectionType } from "../../sanity/types";
+
+const { section } = Astro.props as { section: GallerySectionType };
+---
+
+<section id={section.anchorId} class="bg-[var(--surface)] py-24">
+  <div class="container-shell space-y-8">
+    <div class="max-w-3xl space-y-4">
+      {
+        section.sectionLabel && (
+          <p class="section-eyebrow">{section.sectionLabel}</p>
+        )
+      }
+      <h2 class="section-title text-[var(--forest)]">{section.title}</h2>
+      {
+        section.description && (
+          <p class="section-copy text-lg">{section.description}</p>
+        )
+      }
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-[1.2fr_0.8fr]">
+      {
+        section.images?.map((item, index) => {
+          const imageUrl = getImageUrl(item.image, index === 0 ? 1600 : 1100);
+
+          return imageUrl ? (
+            <figure
+              class:list={[
+                "overflow-hidden rounded-[1.8rem] border border-[var(--line)] shadow-[var(--shadow)]",
+                index === 0 && "md:row-span-2",
+              ]}
+            >
+              <img
+                src={imageUrl}
+                alt={item.alt}
+                class:list={[
+                  index === 0
+                    ? "h-full min-h-[36rem] w-full object-cover"
+                    : "h-[17.5rem] w-full object-cover",
+                ]}
+                loading="lazy"
+              />
+              {item.caption && (
+                <figcaption class="bg-white px-5 py-4 text-sm text-[var(--muted)]">
+                  {item.caption}
+                </figcaption>
+              )}
+            </figure>
+          ) : null;
+        })
+      }
+    </div>
+  </div>
+</section>

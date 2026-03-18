@@ -1,0 +1,46 @@
+---
+import type { NewsletterSection as NewsletterSectionType } from "../../sanity/types";
+
+const { section } = Astro.props as { section: NewsletterSectionType };
+---
+
+<section id={section.anchorId} class="py-24">
+  <div class="container-shell">
+    <div
+      class="rounded-[2rem] border border-[var(--line)] bg-[var(--surface-strong)] px-8 py-10 shadow-[var(--shadow)] lg:px-12 lg:py-14"
+    >
+      {
+        section.sectionLabel && (
+          <p class="section-eyebrow">{section.sectionLabel}</p>
+        )
+      }
+      <div class="mt-4 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div class="space-y-4">
+          <h2 class="section-title text-[var(--forest)]">{section.title}</h2>
+          {
+            section.description && (
+              <p class="section-copy max-w-2xl text-lg">
+                {section.description}
+              </p>
+            )
+          }
+          {
+            section.helperText && (
+              <p class="text-sm text-[var(--muted)]">{section.helperText}</p>
+            )
+          }
+        </div>
+        {
+          section.action && (
+            <a
+              href={section.action.href}
+              class="inline-flex rounded-full border border-[var(--accent)] bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white hover:-translate-y-0.5 hover:bg-[var(--accent-strong)]"
+            >
+              {section.action.label}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

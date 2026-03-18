@@ -1,0 +1,66 @@
+import groq from "groq";
+
+export const siteSettingsQuery = groq`*[_type == "siteSettings" && _id == "siteSettings"][0]{
+  ...,
+  navItems[]{
+    ...
+  },
+  socialLinks[]{
+    ...
+  }
+}`;
+
+export const homepageQuery = groq`*[_type == "homepage" && _id == "homepage"][0]{
+  ...,
+  sections[]{
+    ...,
+    image{
+      ...,
+      image{
+        ...
+      }
+    },
+    primaryCta{
+      ...
+    },
+    secondaryCta{
+      ...
+    },
+    bookingActions[]{
+      ...
+    },
+    rooms[]{
+      ...,
+      image{
+        ...,
+        image{
+          ...
+        }
+      },
+      cta{
+        ...
+      }
+    },
+    amenities[]{
+      ...
+    },
+    offers[]{
+      ...,
+      cta{
+        ...
+      }
+    },
+    testimonials[]{
+      ...
+    },
+    images[]{
+      ...,
+      image{
+        ...
+      }
+    },
+    action{
+      ...
+    }
+  }
+}`;
