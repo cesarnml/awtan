@@ -15,6 +15,7 @@ const sanityProjectId =
   process.env.PUBLIC_SANITY_PROJECT_ID ?? "your-project-id";
 const sanityDataset = process.env.PUBLIC_SANITY_DATASET ?? "production";
 const sanityApiVersion = process.env.PUBLIC_SANITY_API_VERSION ?? "2025-02-19";
+const sanityReadToken = process.env.SANITY_API_READ_TOKEN;
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,7 +32,8 @@ export default defineConfig({
       projectId: sanityProjectId,
       dataset: sanityDataset,
       apiVersion: sanityApiVersion,
-      useCdn: true,
+      token: sanityReadToken,
+      useCdn: !sanityReadToken,
       studioBasePath: "/studio",
       studioRouterHistory: "hash",
     }),

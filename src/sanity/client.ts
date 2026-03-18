@@ -3,12 +3,13 @@ import { createClient } from "@sanity/client";
 const DEFAULT_PROJECT_ID = "your-project-id";
 const DEFAULT_DATASET = "production";
 const DEFAULT_API_VERSION = "2025-02-19";
+const sanityReadToken = process.env.SANITY_API_READ_TOKEN;
 
 export const sanityRuntimeConfig = {
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? DEFAULT_PROJECT_ID,
   dataset: import.meta.env.PUBLIC_SANITY_DATASET ?? DEFAULT_DATASET,
   apiVersion: import.meta.env.PUBLIC_SANITY_API_VERSION ?? DEFAULT_API_VERSION,
-  token: import.meta.env.SANITY_API_READ_TOKEN,
+  token: sanityReadToken,
 };
 
 export const isSanityConfigured =
@@ -19,7 +20,7 @@ export const sanityClient = createClient({
   projectId: sanityRuntimeConfig.projectId,
   dataset: sanityRuntimeConfig.dataset,
   apiVersion: sanityRuntimeConfig.apiVersion,
-  token: sanityRuntimeConfig.token,
-  useCdn: !sanityRuntimeConfig.token,
+  token: sanityReadToken,
+  useCdn: !sanityReadToken,
   perspective: "published",
 });
