@@ -17,17 +17,6 @@ const dataset =
   process.env.PUBLIC_SANITY_DATASET ??
   "production";
 
-console.info("[sanity-env][studio-config]", {
-  VITE_SANITY_PROJECT_ID: import.meta.env.VITE_SANITY_PROJECT_ID ?? null,
-  VITE_SANITY_DATASET: import.meta.env.VITE_SANITY_DATASET ?? null,
-  VITE_SANITY_API_VERSION: import.meta.env.VITE_SANITY_API_VERSION ?? null,
-  SANITY_STUDIO_PROJECT_ID: process.env.SANITY_STUDIO_PROJECT_ID ?? null,
-  SANITY_STUDIO_DATASET: process.env.SANITY_STUDIO_DATASET ?? null,
-  SANITY_STUDIO_API_VERSION: process.env.SANITY_STUDIO_API_VERSION ?? null,
-  resolvedProjectId: projectId,
-  resolvedDataset: dataset,
-});
-
 const singletonTypes = new Set(["homepage", "siteSettings"]);
 const singletonActions = new Set(["publish", "discardChanges", "restore"]);
 
