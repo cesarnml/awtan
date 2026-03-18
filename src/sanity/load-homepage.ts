@@ -7,7 +7,9 @@ import { getFallbackPayload } from "./fallback";
 import { homepageQuery, siteSettingsQuery } from "./queries";
 import type { HomepageDocument, HomepagePayload, SiteSettings } from "./types";
 
-function normalizeSiteSettings(siteSettings: SiteSettings | null): SiteSettings | null {
+function normalizeSiteSettings(
+  siteSettings: SiteSettings | null,
+): SiteSettings | null {
   if (!siteSettings) {
     return null;
   }

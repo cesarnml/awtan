@@ -33,13 +33,11 @@ const socialLinks = siteSettings.socialLinks ?? [];
       {
         navItems.length > 0 && (
           <div class="grid gap-3 text-sm text-[rgba(251,247,242,0.78)]">
-            {
-              navItems.map((item) => (
-                <a class="hover:text-white" href={item.href}>
-                  {item.label}
-                </a>
-              ))
-            }
+            {navItems.map((item) => (
+              <a class="hover:text-white" href={item.href}>
+                {item.label}
+              </a>
+            ))}
           </div>
         )
       }
@@ -70,18 +68,16 @@ const socialLinks = siteSettings.socialLinks ?? [];
       {
         socialLinks.length > 0 && (
           <div class="flex gap-4 pt-2">
-            {
-              socialLinks.map((item) => (
-                <a
-                  class="hover:text-white"
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {item.platform}
-                </a>
-              ))
-            }
+            {socialLinks.map((item) => (
+              <a
+                class="hover:text-white"
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {item.platform}
+              </a>
+            ))}
           </div>
         )
       }
