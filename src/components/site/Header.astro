@@ -2,6 +2,7 @@
 import type { SiteSettings } from "../../sanity/types";
 
 const { siteSettings } = Astro.props as { siteSettings: SiteSettings };
+const navItems = siteSettings.navItems ?? [];
 ---
 
 <header
@@ -23,7 +24,7 @@ const { siteSettings } = Astro.props as { siteSettings: SiteSettings };
       class="hidden items-center gap-6 text-sm font-medium text-[var(--ink)] lg:flex"
     >
       {
-        siteSettings.navItems.map((item) => (
+        navItems.map((item) => (
           <a class="hover:text-[var(--accent-strong)]" href={item.href}>
             {item.label}
           </a>

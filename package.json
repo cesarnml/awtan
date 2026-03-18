@@ -12,7 +12,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format": "prettier --write ."
+    "format": "prettier --write . --ignore-path .prettierignore"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.0",

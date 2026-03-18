@@ -6,7 +6,7 @@ This branch embeds Sanity Studio at `/studio` and fetches published homepage con
 
 ### Local setup
 
-1. Copy [`.env.example`](/Users/cesar/code/awtan-sanity-integration/.env.example) to `.env` if you do not already have the Sanity variables.
+1. Copy [`.env.example`](./.env.example) to `.env` if you do not already have the Sanity variables.
 2. Set:
    - Astro/frontend:
      - `PUBLIC_SANITY_PROJECT_ID`

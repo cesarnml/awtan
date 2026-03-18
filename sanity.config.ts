@@ -519,6 +519,7 @@ const siteSettings = defineType({
       title: "Primary navigation",
       type: "array",
       of: [defineArrayMember({ type: "navItem" })],
+      initialValue: [],
     }),
     defineField({
       name: "footerBlurb",
@@ -546,6 +547,7 @@ const siteSettings = defineType({
       title: "Social links",
       type: "array",
       of: [defineArrayMember({ type: "socialLink" })],
+      initialValue: [],
     }),
   ],
   preview: {

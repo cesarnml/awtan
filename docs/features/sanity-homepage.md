@@ -5,6 +5,7 @@
 This branch introduces a Sanity-backed homepage for the Astro marketing site, modeled on the section density and editorial flow of the Koon Hotel homepage.
 
 Current state:
+
 - Sanity Studio is embedded at `/studio`
 - The public homepage fetches published singleton content at build time
 - The frontend falls back to local sample content until Sanity is configured and populated
@@ -17,6 +18,7 @@ Current state:
 The implementation is intentionally limited to the main homepage. We are not building Sanity-driven routing or additional content pages yet.
 
 Reason:
+
 - keeps the first CMS integration small enough to land cleanly
 - lets us validate the content model and editorial workflow before expanding page inventory
 
@@ -25,6 +27,7 @@ Reason:
 Sanity Studio is mounted through the Astro app at `/studio` using `@sanity/astro`.
 
 Reason:
+
 - one repo and one local dev environment
 - easier handoff between frontend implementation and content modeling
 - less setup overhead while the CMS model is still changing
@@ -34,11 +37,13 @@ Reason:
 The Astro homepage fetches published content at build time.
 
 Reason:
+
 - matches the marketing-site use case
 - keeps hosting simple
 - avoids preview/draft complexity in the first pass
 
 Implication:
+
 - content changes require a rebuild/redeploy to appear on the public site
 
 ### Flexible ordered sections
@@ -46,6 +51,7 @@ Implication:
 The `homepage` document stores an ordered `sections` array instead of a rigid one-off field set.
 
 Reason:
+
 - marketing can reorder modules without code changes
 - the homepage structure is content-rich and likely to evolve
 - still constrained enough to keep rendering predictable
@@ -55,6 +61,7 @@ Reason:
 Shared nav and footer content lives in a `siteSettings` singleton.
 
 Reason:
+
 - the homepage already needs cross-page-style navigation
 - future pages will likely reuse the same header/footer model
 
@@ -63,11 +70,13 @@ Reason:
 ### Singleton documents
 
 `homepage`
+
 - SEO title
 - SEO description
 - ordered sections array
 
 `siteSettings`
+
 - hotel name
 - tagline
 - primary nav items
@@ -103,40 +112,44 @@ Reason:
 
 ### App wiring
 
-- Sanity integration is configured in [`astro.config.mjs`](/Users/cesar/code/awtan-sanity-integration/astro.config.mjs)
+- Sanity integration is configured in [`astro.config.mjs`](../../astro.config.mjs)
 - Studio is exposed at `/studio` via `@sanity/astro`
 - React support was added because the embedded Studio depends on it
 
 ### Content loading
 
-- The homepage entrypoint is [`src/pages/index.astro`](/Users/cesar/code/awtan-sanity-integration/src/pages/index.astro)
-- Content loading is handled in [`src/sanity/load-homepage.ts`](/Users/cesar/code/awtan-sanity-integration/src/sanity/load-homepage.ts)
-- GROQ queries live in [`src/sanity/queries.ts`](/Users/cesar/code/awtan-sanity-integration/src/sanity/queries.ts)
-- Runtime typing lives in [`src/sanity/types.ts`](/Users/cesar/code/awtan-sanity-integration/src/sanity/types.ts)
+- The homepage entrypoint is [`src/pages/index.astro`](../../src/pages/index.astro)
+- Content loading is handled in [`src/sanity/load-homepage.ts`](../../src/sanity/load-homepage.ts)
+- GROQ queries live in [`src/sanity/queries.ts`](../../src/sanity/queries.ts)
+- Runtime typing lives in [`src/sanity/types.ts`](../../src/sanity/types.ts)
 
 ### Fallback behavior
 
 If Sanity is not configured, or if required singleton content is missing, the homepage renders local sample content instead of failing the build.
 
 This is implemented in:
-- [`src/sanity/fallback.ts`](/Users/cesar/code/awtan-sanity-integration/src/sanity/fallback.ts)
+
+- [`src/sanity/fallback.ts`](../../src/sanity/fallback.ts)
 
 Reason:
+
 - allows UI and schema work to progress independently
 - keeps the branch demoable before CMS credentials/content are ready
 
 ### Rendering model
 
-- The homepage is rendered through a section dispatcher in [`src/components/site/SectionRenderer.astro`](/Users/cesar/code/awtan-sanity-integration/src/components/site/SectionRenderer.astro)
-- Each homepage module has its own Astro component under [`src/components/sections`](/Users/cesar/code/awtan-sanity-integration/src/components/sections)
-- Header and footer are split into reusable site components under [`src/components/site`](/Users/cesar/code/awtan-sanity-integration/src/components/site)
+- The homepage is rendered through a section dispatcher in [`src/components/site/SectionRenderer.astro`](../../src/components/site/SectionRenderer.astro)
+- Each homepage module has its own Astro component under [`src/components/sections`](../../src/components/sections)
+- Header and footer are split into reusable site components under [`src/components/site`](../../src/components/site)
 
 ### Environment variables
 
 Documented in:
-- [`.env.example`](/Users/cesar/code/awtan-sanity-integration/.env.example)
+
+- [`.env.example`](../../.env.example)
 
 Current variables:
+
 - `PUBLIC_SANITY_PROJECT_ID`
 - `PUBLIC_SANITY_DATASET`
 - `PUBLIC_SANITY_API_VERSION`
@@ -145,13 +158,16 @@ Current variables:
 ## Verification
 
 Current verification completed:
+
 - `pnpm format`
 - `pnpm build`
 
 Build status:
+
 - passing
 
 Current non-blocking warnings:
+
 - Sentry warns during build if auth token is unavailable in the build environment
 - Vite warns that the Studio bundle is large
 
@@ -171,6 +187,7 @@ Current non-blocking warnings:
 Implemented the first Sanity CMS integration for the marketing homepage.
 
 Included:
+
 - embedded Studio at `/studio`
 - singleton schema for homepage and site settings
 - section-based homepage rendering

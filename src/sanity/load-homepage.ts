@@ -7,6 +7,20 @@ import { getFallbackPayload } from "./fallback";
 import { homepageQuery, siteSettingsQuery } from "./queries";
 import type { HomepageDocument, HomepagePayload, SiteSettings } from "./types";
 
+function normalizeSiteSettings(siteSettings: SiteSettings | null): SiteSettings | null {
+  if (!siteSettings) {
+    return null;
+  }
+
+  return {
+    ...siteSettings,
+    navItems: Array.isArray(siteSettings.navItems) ? siteSettings.navItems : [],
+    socialLinks: Array.isArray(siteSettings.socialLinks)
+      ? siteSettings.socialLinks
+      : [],
+  };
+}
+
 function hasRenderableHomepage(
   homepage: HomepageDocument | null,
   siteSettings: SiteSettings | null,
@@ -29,10 +43,11 @@ export async function loadHomepagePage(): Promise<HomepagePayload> {
   }
 
   try {
-    const [homepage, siteSettings] = await Promise.all([
+    const [homepage, rawSiteSettings] = await Promise.all([
       sanityClient.fetch<HomepageDocument | null>(homepageQuery),
       sanityClient.fetch<SiteSettings | null>(siteSettingsQuery),
     ]);
+    const siteSettings = normalizeSiteSettings(rawSiteSettings);
 
     if (!hasRenderableHomepage(homepage, siteSettings)) {
       return getFallbackPayload(
